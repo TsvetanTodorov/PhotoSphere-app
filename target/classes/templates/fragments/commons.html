@@ -14,16 +14,16 @@
     <nav>
         <div class="home">
             <a href="/">Paintings Collectors App</a>
-            <a href="/">Add Painting</a>
+            <a th:if="${user}" th:href="@{/paintings/new}">Add Painting</a>
         </div>
         <div class="links">
-            <li>
+            <li th:unless="${user}">
                 <a th:href="@{/login}">Login</a>
             </li>
-            <li>
+            <li th:unless="${user}">
                 <a th:href="@{/register}">Register</a>
             </li>
-            <li>
+            <li th:if="${user}">
                 <a th:href="@{/logout}">Logout</a>
             </li>
         </div>

@@ -92,12 +92,12 @@ public class IndexController {
     }
 
     @GetMapping("/logout")
-    public ModelAndView getLogoutPage() {
+    public String getLogoutPage(HttpSession session) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/");
 
-        return modelAndView;
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 
