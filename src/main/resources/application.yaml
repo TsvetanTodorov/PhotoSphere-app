@@ -3,7 +3,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: 'TRUE'
+        format_sql: 'FALSE'
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
@@ -22,7 +22,7 @@ logging:
       hibernate:
         type:
           descriptor: TRACE
-        SQL: DEBUG
+        SQL: WARN
       nodeValue: WARN
     blog: WARN
 server:
