@@ -9,9 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -55,6 +53,42 @@ public class PaintingsController {
 
         paintingService.createNewPainting(createPaintingRequest,user);
 
+
+        return "redirect:/home";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePainting(@PathVariable UUID id) {
+
+        paintingService.deletePaintingById(id);
+
+        return "redirect:/home";
+    }
+
+
+    @PostMapping("/favourites/{id}")
+    public String makeFavouritePainting(@PathVariable UUID id, HttpSession session) {
+
+        UUID userId = (UUID) session.getAttribute("user_id");
+        User user = userService.getById(userId);
+
+        paintingService.createFavouriteByPaintingId(id,user);
+
+        return "redirect:/home";
+    }
+
+    @DeleteMapping("/favourites/{id}")
+    public String deleteFavouritePainting(@PathVariable UUID id) {
+
+        paintingService.deleteFavouritePaintingById(id);
+
+        return "redirect:/home";
+    }
+
+    @PutMapping("/{id}/votes")
+    public String updateVotes(@PathVariable UUID id, HttpSession session) {
+
+        paintingService.incrementVotesByOne(id);
 
         return "redirect:/home";
     }
