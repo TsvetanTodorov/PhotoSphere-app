@@ -23,15 +23,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="my-paintings">
+                            <tr th:each="painting : ${user.paintings}" class="my-paintings">
                                 <td scope="row" style="width: 5%">
-                                    <img class="mr-2" src="https://media.istockphoto.com/id/1442179368/photo/maldives-island.jpg?s=612x612&amp;w=0&amp;k=20&amp;c=t38FJQ6YhyyZGN91A8tpn3nz9Aqcy_aXolImsOXOZ34=" width="35px" height="35px">
+                                    <img class="mr-2" th:src="${painting.imageUrl}" width="35px" height="35px">
                                 </td>
-                                <td>Spring</td>
-                                <td>Viktor</td>
-                                <td>EXPRESSIONISM</td>
+                                <td th:text="${painting.name}"></td>
+                                <td th:text="${painting.author}"></td>
+                                <td th:text="${painting.style}"></td>
                                 <td style="width: 15%">
-                                    <form action="" method="">
+                                    <!--  Click button = DELETE /paintings/{id}                                   -->
+                                    <form th:action="@{'/paintings/' + ${painting.id}}" th:method="DELETE">
                                         <button class="btn-danger btn">Delete</button>
                                     </form>
                                 </td>
@@ -46,17 +47,17 @@
                         <h3 class="my-paintings">My Favorites</h3>
                         <table class="table table-striped table-dark">
                             <tbody>
-                            <tr>
+                            <tr th:each="painting : ${user.favouritePaintings}">
                                 <td>
                                     <div class="img1">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg" width="40px" height="40" style="padding-left: 0.3em;">
+                                        <img th:src="${painting.imageUrl}" width="40px" height="40" style="padding-left: 0.3em;">
                                     </div>
                                 </td>
-                                <td>Mona Lisa</td>
-                                <td>Some Author</td>
-                                <td>2025-02-10T17:19:08.613321</td>
+                                <td th:text="${painting.name}"></td>
+                                <td th:text="${painting.author}"></td>
+                                <td th:text="${#temporals.format(painting.createdOn, 'dd-MM-yyyy hh:mm')}"></td>
                                 <td>
-                                    <form action="" method="">
+                                    <form th:action="@{'/paintings/favourites/' + ${painting.id}}" th:method="DELETE">
                                         <button class="btn-danger btn">X</button>
                                     </form>
                                 </td>
@@ -71,29 +72,29 @@
                 <div class="home-fields" style="height: 58vh; overflow: auto">
                     <h3 class="my-paintings">Other Paintings</h3>
                     <ul class="list-group list-group-vertical text-dark">
-                        <li>
+                        <li th:each="systemPainting : ${allSystemPaintings}" th:if="${systemPainting.owner.id != user.id}">
                             <div class="my-paintings-first-row">
                                 <div class="img1">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg" width="75px" height="75" style="padding-top: 0.3em; padding-left: 0.3em; margin-top: 2.3em">
+                                    <img th:src="${systemPainting.imageUrl}" width="75px" height="75" style="padding-top: 0.3em; padding-left: 0.3em; margin-top: 2.3em">
                                 </div>
-                                <p>Mona Lisa</p>
-                                <p>Some Author</p>
+                                <p th:text="${systemPainting.name}"></p>
+                                <p th:text="${systemPainting.author}"></p>
                             </div>
                             <div class="buttons-info">
                                 <div class="favorite">
-                                    <form action="" method="">
+                                    <form th:action="@{'/paintings/favourites/' + ${systemPainting.id}}" th:method="POST">
                                         <button class="btn-info btn">Favourite</button>
                                     </form>
                                 </div>
                                 <div class="rate">
-                                    <form action="" method="">
+                                    <form th:action="@{'/paintings/' + ${systemPainting.id} + '/votes'}" th:method="PUT">
                                         <button class="btn-primary btn">Vote</button>
                                     </form>
                                 </div>
                             </div>
                             <div class="second-info">
-                                <p>Style: <span>IMPRESSIONISM</span></p>
-                                <p>Added by <span>viktor11</span></p>
+                                <p>Style: <span th:text="${systemPainting.style}"></span></p>
+                                <p>Added by <span th:text="${systemPainting.owner.username}"></span></p>
                             </div>
                         </li>
 
@@ -102,13 +103,9 @@
                 <div class="home-fields" style="height: 21vh; overflow: auto">
                     <h3 class="my-paintings">Most Rated Paintings</h3>
                     <div class="most-rated">
-                        <div class="rated-record">
-                            <p>Paining: <span>Mona Lisa</span></p>
-                            <p>Votes: <span>2</span></p>
-                        </div>
-                        <div class="rated-record">
-                            <p>Paining: <span>Spring </span></p>
-                            <p>Votes: <span>0</span></p>
+                        <div class="rated-record" th:each="painting : ${allSystemPaintings}">
+                            <p>Painting: <span th:text="${painting.name}"></span></p>
+                            <p>Votes: <span th:text="${painting.votes}"></span></p>
                         </div>
                     </div>
                 </div>
