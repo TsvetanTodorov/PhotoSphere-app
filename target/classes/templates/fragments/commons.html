@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Paintings Collectors App</title>
+    <title>PhotoSphere</title>
     <link rel="stylesheet" href="/css/reset-css.css"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
@@ -13,8 +13,8 @@
 <header>
     <nav>
         <div class="home">
-            <a href="/">Paintings Collectors App</a>
-            <a th:if="${user}" th:href="@{/paintings/new}">Add Painting</a>
+            <a href="/">PhotoSphere</a>
+            <a th:if="${user}" th:href="@{/photos/new}">Add Photo</a>
         </div>
         <div class="links">
             <li th:unless="${user}">
@@ -31,9 +31,6 @@
 </header>
 <footer class="footer bg-transparent py-2">
     <div class="container-fluid text-center">
-        <div class="footer-background footer-text fixed-bottom">
-            &copy; Spring team 2024. All rights reserved.
-        </div>
     </div>
 </footer>
 </body>

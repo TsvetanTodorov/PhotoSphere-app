@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/commons::head"></head>
+<head th:replace="~{fragments/commons::head}"></head>
 <body>
-<header th:replace="fragments/commons::nav"></header>
+<header th:replace="~{fragments/commons::nav}"></header>
 <main>
     <div class="welcome mt-1 mb-4">
         <p class="mySticky bg-gray text-dark user" th:text="${'Welcome, ' + user.username}"></p>
@@ -11,7 +11,7 @@
             <div class="col-6 mt-1 mb-1">
                 <div>
                     <div class="home-fields" style="height: 40vh; overflow: auto">
-                        <h3 class="my-paintings">My Paintings</h3>
+                        <h3 class="my-paintings">My Photos</h3>
                         <table class="table table-striped table-dark">
                             <thead>
                             <tr class="my-paintings">
@@ -23,16 +23,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="painting : ${user.paintings}" class="my-paintings">
+                            <tr th:each="photo : ${user.photos}" class="my-paintings">
                                 <td scope="row" style="width: 5%">
-                                    <img class="mr-2" th:src="${painting.imageUrl}" width="35px" height="35px">
+                                    <img class="mr-2" th:src="${photo.imageUrl}" width="35px" height="35px">
                                 </td>
-                                <td th:text="${painting.name}"></td>
-                                <td th:text="${painting.author}"></td>
-                                <td th:text="${painting.style}"></td>
+                                <td th:text="${photo.name}"></td>
+                                <td th:text="${photo.author}"></td>
+                                <td th:text="${photo.style}"></td>
                                 <td style="width: 15%">
                                     <!--  Click button = DELETE /paintings/{id}                                   -->
-                                    <form th:action="@{'/paintings/' + ${painting.id}}" th:method="DELETE">
+                                    <form th:action="@{'/photos/' + ${photo.id}}" th:method="DELETE">
                                         <button class="btn-danger btn">Delete</button>
                                     </form>
                                 </td>
@@ -47,17 +47,17 @@
                         <h3 class="my-paintings">My Favorites</h3>
                         <table class="table table-striped table-dark">
                             <tbody>
-                            <tr th:each="painting : ${user.favouritePaintings}">
+                            <tr th:each="photo : ${user.favouritePhotos}">
                                 <td>
                                     <div class="img1">
-                                        <img th:src="${painting.imageUrl}" width="40px" height="40" style="padding-left: 0.3em;">
+                                        <img th:src="${photo.imageUrl}" width="40px" height="40" style="padding-left: 0.3em;">
                                     </div>
                                 </td>
-                                <td th:text="${painting.name}"></td>
-                                <td th:text="${painting.author}"></td>
-                                <td th:text="${#temporals.format(painting.createdOn, 'dd-MM-yyyy hh:mm')}"></td>
+                                <td th:text="${photo.name}"></td>
+                                <td th:text="${photo.author}"></td>
+                                <td th:text="${#temporals.format(photo.createdOn, 'dd-MM-yyyy hh:mm')}"></td>
                                 <td>
-                                    <form th:action="@{'/paintings/favourites/' + ${painting.id}}" th:method="DELETE">
+                                    <form th:action="@{'/photos/favourites/' + ${photo.id}}" th:method="DELETE">
                                         <button class="btn-danger btn">X</button>
                                     </form>
                                 </td>
@@ -70,42 +70,42 @@
 
             <div class="col-6 mt-1 mb-1">
                 <div class="home-fields" style="height: 58vh; overflow: auto">
-                    <h3 class="my-paintings">Other Paintings</h3>
+                    <h3 class="my-paintings">Other Photos</h3>
                     <ul class="list-group list-group-vertical text-dark">
-                        <li th:each="systemPainting : ${allSystemPaintings}" th:if="${systemPainting.owner.id != user.id}">
+                        <li th:each="systemPhoto : ${allSystemPhotos}" th:if="${systemPhoto.owner.id != user.id}">
                             <div class="my-paintings-first-row">
                                 <div class="img1">
-                                    <img th:src="${systemPainting.imageUrl}" width="75px" height="75" style="padding-top: 0.3em; padding-left: 0.3em; margin-top: 2.3em">
+                                    <img th:src="${systemPhoto.imageUrl}" width="75px" height="75" style="padding-top: 0.3em; padding-left: 0.3em; margin-top: 2.3em">
                                 </div>
-                                <p th:text="${systemPainting.name}"></p>
-                                <p th:text="${systemPainting.author}"></p>
+                                <p th:text="${systemPhoto.name}"></p>
+                                <p th:text="${systemPhoto.author}"></p>
                             </div>
                             <div class="buttons-info">
                                 <div class="favorite">
-                                    <form th:action="@{'/paintings/favourites/' + ${systemPainting.id}}" th:method="POST">
+                                    <form th:action="@{'/photos/favourites/' + ${systemPhoto.id}}" th:method="POST">
                                         <button class="btn-info btn">Favourite</button>
                                     </form>
                                 </div>
                                 <div class="rate">
-                                    <form th:action="@{'/paintings/' + ${systemPainting.id} + '/votes'}" th:method="PUT">
+                                    <form th:action="@{'/photos/' + ${systemPhoto.id} + '/votes'}" th:method="PUT">
                                         <button class="btn-primary btn">Vote</button>
                                     </form>
                                 </div>
                             </div>
                             <div class="second-info">
-                                <p>Style: <span th:text="${systemPainting.style}"></span></p>
-                                <p>Added by <span th:text="${systemPainting.owner.username}"></span></p>
+                                <p>Style: <span th:text="${systemPhoto.style}"></span></p>
+                                <p>Added by <span th:text="${systemPhoto.owner.username}"></span></p>
                             </div>
                         </li>
 
                     </ul>
                 </div>
                 <div class="home-fields" style="height: 21vh; overflow: auto">
-                    <h3 class="my-paintings">Most Rated Paintings</h3>
+                    <h3 class="my-paintings">Most Rated Photos</h3>
                     <div class="most-rated">
-                        <div class="rated-record" th:each="painting : ${allSystemPaintings}">
-                            <p>Painting: <span th:text="${painting.name}"></span></p>
-                            <p>Votes: <span th:text="${painting.votes}"></span></p>
+                        <div class="rated-record" th:each="photo : ${allSystemPhotos}">
+                            <p>Photo: <span th:text="${photo.name}"></span></p>
+                            <p>Votes: <span th:text="${photo.votes}"></span></p>
                         </div>
                     </div>
                 </div>
@@ -113,6 +113,5 @@
         </div>
     </div>
 </main>
-<footer th:replace="fragments/commons::footer"></footer>
 </body>
 </html>
